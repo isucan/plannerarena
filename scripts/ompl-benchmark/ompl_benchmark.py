@@ -58,38 +58,92 @@ class OMPLBenchmark(object):
     self.cursor.close()
 
   def getExperimentNames(self):
+    """Get the names of all the experiments in the database"""
     self.cursor.execute('SELECT DISTINCT name FROM experiments')
     return [e[0] for e in self.cursor.fetchall()]
-    
-  def getExperiments(self):
-    description = [("name", "string", "Name"), ("count", "number", "Executions"), ("time", "number", "Total Time (s)")]
-    data = []
+
+  def getGeometricExperimentNames(self):
     exps = self.getExperimentNames()
+    gex = []
     for e in exps:
-      c.execute('SELECT count(id), total(totaltime) FROM experiments WHERE name = "%s"' % e)
-      t = c.fetchone()
-      data.append((e, t[0], t[1]))
-    return OMPLDataTable(description, data, "name")
+      planners = self.getPlannerNames(e)
+      for p in planners:
+        if p.startswith("geometric_"):
+          gex.append(e)
+          break
+    return gex
+
+  def getControlExperimentNames(self):
+    exps = self.getExperimentNames()
+    cex = []
+    for e in exps:
+      planners = self.getPlannerNames(e)
+      for p in planners:
+        if p.startswith("control_"):
+          cex.append(e)
+          break
+    return cex
+      
+  def getExperimentsTable(self):
+    description = [("name", "string", "Name"), ("type", "string", "Type"), ("count", "number", "Executions"), ("time", "number", "Total Time (s)")]
+    data = []
+    exps = self.getGeometricExperimentNames()
+    for e in exps:
+      self.cursor.execute('SELECT count(id), total(totaltime) FROM experiments WHERE name = "%s"' % e)
+      t = self.cursor.fetchone()
+      data.append((e, "geometric", t[0], t[1]))
+    exps = self.getControlExperimentNames()
+    for e in exps:
+      self.cursor.execute('SELECT count(id), total(totaltime) FROM experiments WHERE name = "%s"' % e)
+      t = self.cursor.fetchone()
+      data.append((e, "control", t[0], t[1]))
+    return OMPLTableData(description, data, "name")
 
   def getPlannerNames(self, exp_name):
-    """ Get the names of the planners that solve a particular problem """
+    """ Get the names of the planners that solve a particular problem. The names include the 'geometric_' or 'control_' prefix, depending on the type of planner """
     from string import replace
     prefix = 'best_' + exp_name + '_'
     self.cursor.execute("SELECT name FROM sqlite_master WHERE type='view'")
     return [replace(str(t[0]), prefix, '') for t in self.cursor.fetchall() if t[0].startswith(prefix)]
 
-  def getPlannerConfigs(self, planner_name, exp_name = None):
+  def getGeometricPlannerNames(self, exp_name): 
+    """ Get the names of the geometric planners that solve a particular problem """
+    from string import replace
+    return [replace(t, "geometric_", '') for t in self.getPlannerNames(exp_name) if t.startswith("geometric_")]
+
+  def getControlPlannerNames(self, exp_name):
+    """ Get the names of the control planners that solve a particular problem """
+    from string import replace
+    return [replace(t, "control_", '') for t in self.getPlannerNames(exp_name) if t.startswith("control_")]
+  
+  def getPlannerConfigIDs(self, planner_name, exp_name = None):
+    """ Get the IDs of the configurations of a particular planner that is used for a specified experiment """
     if exp_name == None:
       self.cursor.execute('SELECT DISTINCT plannerid FROM planner_%s ORDER BY plannerid' % planner_name)
     else:
       self.cursor.execute('SELECT DISTINCT plannerid FROM planner_%s INNER JOIN experiments ON planner_%s.experimentid=experiments.id WHERE experiments.name="%s" ORDER BY plannerid' % (planner_name, planner_name, exp_name))
     return [c[0] for c in self.cursor.fetchall()]
 
-  def getPlannersTable(self, exp_name, with_simplification = True):
+  def getGeometricPlannersTable(self, exp_name = None, with_simplification = True):
+    """ Get a table showing the performance of all previously executed
+    planners, for a particular geometric problem. For geometric
+    problems simplification is executed by default as well, and the
+    last parameter specifies whether the simplification should be
+    included in the computation or not """
+
     from string import replace
 
-    self.cursor.execute("SELECT name FROM sqlite_master WHERE type='view'")
-    view_names = [ str(t[0]) for t in self.cursor.fetchall() if t[0].startswith('best_' + exp_name)]
+    planners = []
+    prefix = ''
+
+    if exp_name == None:
+      prefix = 'planner_geometric_'
+      self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+      planners = [str(t[0]) for t in self.cursor.fetchall() if t[0].startswith(prefix)]
+    else:
+      self.cursor.execute("SELECT name FROM sqlite_master WHERE type='view'")
+      prefix = 'best_' + exp_name + '_geometric_'
+      planners = [ str(t[0]) for t in self.cursor.fetchall() if t[0].startswith(prefix)]
     
     data = []
     description = [("planner", "string", "Planner name"), ("runs", "number", "Number of runs"), ("time", "number", "Solution time (s)"),
@@ -97,13 +151,13 @@ class OMPLBenchmark(object):
                    ("motions", "number", "Graph motions"), ("smoothness", "number", "Solution smoothness"), ("clearance", "number", "Solution clearance")]
 
     # best configuration per planner 
-    for p in view_names:
+    for p in planners:
       if with_simplification:
         self.cursor.execute('SELECT ifnull(time + simplification_time, 0) as total_time, ifnull(simplified_solution_length, 0) as solution_length, ifnull(simplified_solution_clearance, 0) as solution_clearance, ifnull(simplified_solution_smoothness, 0) as solution_smoothness, ifnull(graph_states, 0) as graph_states, ifnull(graph_motions, 0) AS graph_motions, ifnull(solved = 1 AND crashed = 0 AND correct_solution = 1 AND approximate_solution = 0, 0) AS solved FROM %s' % p)
       else:
         self.cursor.execute('SELECT ifnull(time, 0) as total_time, ifnull(solution_length, 0) as solution_length, ifnull(solution_clearance, 0) as solution_clearance, ifnull(solution_smoothness, 0) as solution_smoothness, ifnull(graph_states, 0) as graph_states, ifnull(graph_motions, 0) AS graph_motions, ifnull(solved = 1 AND crashed = 0 AND correct_solution = 1 AND approximate_solution = 0, 0) AS solved FROM %s' % p)
 
-      nm = replace(p, 'best_' + exp_name + '_geometric_', '')
+      nm = replace(p, prefix, '')
       rid = 0
       sid = 0
       total_time = 0
@@ -131,17 +185,18 @@ class OMPLBenchmark(object):
                        graph_states / float(sid), graph_motions / float(sid), solution_smoothness / float(sid), solution_clearance / float(sid)))
     return OMPLTableData(description, data, "planner")
     
-  def getPlannerConfigs(self, exp_name, p_name, with_simplification = True):
+  def getGeometricPlannerConfigsTable(self, exp_name, p_name, with_simplification = True):
     data = []
     description = [("config", "string", "Planner configuration"), ("runs", "number", "Number of runs"), ("time", "number", "Solution time (s)"),
                    ("length", "number", "Solution length"), ("failed", "number", "Failure percentage"), ("states", "number", "Graph states"),
                    ("motions", "number", "Graph motions"), ("smoothness", "number", "Solution smoothness"), ("clearance", "number", "Solution clearance")]
-    
+    if not p_name.startswith("geometric_"):
+      p_name = "geometric_" + p_name
     if with_simplification:
       self.cursor.execute('SELECT plannerid, ifnull(time + simplification_time, 0) AS total_time, ifnull(simplified_solution_length, 0) AS solution_length, ifnull(simplified_solution_clearance, 0) AS solution_clearance, ifnull(simplified_solution_smoothness, 0) AS solution_smoothness, ifnull(graph_states, 0) AS graph_states, ifnull(graph_motions, 0) AS graph_motions, ifnull(solved = 1 AND crashed = 0 AND correct_solution = 1 AND approximate_solution = 0, 0) AS solved FROM planner_%s INNER JOIN experiments ON planner_%s.experimentid=experiments.id WHERE experiments.name="%s" ORDER BY plannerid' % (p_name, p_name, exp_name))
     else:
       self.cursor.execute('SELECT plannerid, ifnull(time, 0) AS total_time, ifnull(solution_length, 0) AS solution_length, ifnull(solution_clearance, 0) AS solution_clearance, ifnull(solution_smoothness, 0) AS solution_smoothness, ifnull(graph_states, 0) AS graph_states, ifnull(graph_motions, 0) AS graph_motions, ifnull(solved = 1 AND crashed = 0 AND correct_solution = 1 AND approximate_solution = 0, 0) AS solved FROM planner_%s INNER JOIN experiments ON planner_%s.experimentid=experiments.id WHERE experiments.name="%s" ORDER BY plannerid' % (p_name, p_name, exp_name))
-                  
+
     rid = 0
     sid = 0
     total_time = 0
