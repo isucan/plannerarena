@@ -23,3 +23,6 @@ $(basename $(notdir $(1))): $(1)
 endef
 
 $(foreach cfg,$(CFG_FILES),$(eval $(call RUN_BENCHMARK_template,$(cfg))))
+
+clean:
+	rm -f *.console
