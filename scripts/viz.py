@@ -34,7 +34,10 @@ def getExperimentImages(exps):
             (nm, ext) = os.path.splitext(f)
             if ext == ".jpg" or ext == ".png":
                 if nm in exps:
-                    pth[nm] = os.path.join(x[0], f)
+                    pth[nm] = [os.path.join(x[0], f)]
+                    solved_fnm = os.path.join(x[0], nm + "_solved" + ext)
+                    if os.path.isfile(solved_fnm):
+                        pth[nm].append(solved_fnm)
     return pth
 
 def main():
