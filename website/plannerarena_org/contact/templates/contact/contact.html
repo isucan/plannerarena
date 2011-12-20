@@ -1,0 +1,28 @@
+{% load i18n %}
+
+{% if form %}
+  <form action="?" method="POST">
+    {% for field in form.visible_fields %}
+      <p{% if field.css_classes %} class="{{ field.css_classes }}"{% endif %}>
+        <label for="{{ field.id_for_label }}">{{ field.label|capfirst }}:</label>
+        {{ field }}
+      </p>
+      {{ field.errors }}
+    {% endfor %}
+    <div>
+      {% for field in form.hidden_fields %}
+        {{ field }}
+        {{ field.errors }}
+      {% endfor %}
+    </div>
+    {% csrf_token %}
+
+    <p><input type="submit" value="{% trans "Send" %}"></p>
+  </form>
+{% else %}
+  {% if recipients_len == 0 %}
+    <p class="error">{% trans "This contact form is not yet configured." %}</p>
+  {% else %}
+    {% trans "Thank you for contacting us!" %}
+  {% endif %}
+{% endif %}

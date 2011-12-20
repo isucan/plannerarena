@@ -1,0 +1,11 @@
+{% load i18n %}
+{{ form.message }}
+
+-- 
+{% trans "Name:" %} {{ form.name }}
+{% trans "Email:" %} {{ form.email }}
+{% trans "Subject:" %} {{ form.subject }}
+{% trans "Page:" %} {{ page_url }}
+{% trans "IP address:" %} {{ request_meta.REMOTE_ADDR }}
+{% trans "User agent:" %} {{ request_meta.HTTP_USER_AGENT }}
+

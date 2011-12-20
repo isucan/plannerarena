@@ -2,23 +2,17 @@
 
 import os
 import sys
-import sqlite3
-import datetime
-import cgi
-from string import replace
 
 try:
     import gviz_api
 except:
-    from os.path import abspath, dirname
-    sys.path.append(dirname(abspath(__file__)) + "/google-visualization-python")
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/google-visualization-python")
     import gviz_api
 
 try:
     import ompl_benchmark
 except:
-    from os.path import abspath, dirname
-    sys.path.append(dirname(abspath(__file__)) + "/ompl-benchmark")
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/ompl-benchmark")
     import ompl_benchmark
 
 def toJson(tbl):

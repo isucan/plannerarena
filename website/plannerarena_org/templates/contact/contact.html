@@ -1,0 +1,54 @@
+{% load i18n %}
+
+{% if form %}
+  <form action="?" method="POST">
+    {% if recipients_len > 1 %}
+      <p{% if form.recipient.css_classes %} class="{{ form.recipient.css_classes }}"{% endif %}>
+        <label for="{{ form.recipient.id_for_label }}">{{ form.recipient.label|capfirst }}:</label>
+        {{ form.recipient }}
+      </p>
+      {{ form.recipient.errors }}
+    {% endif %}
+
+    <div id="contact-name-email-wrapper">
+      <p id="contact-name" {% if form.name.css_classes %} class="{{ form.name.css_classes }}"{% endif %}>
+        <label for="{{ form.name.id_for_label }}">{{ form.name.label|capfirst }}:</label>
+        {{ form.name }}
+      </p>
+      <p id="contact-email" {% if form.email.css_classes %} class="{{ form.email.css_classes }}"{% endif %}>
+        <label for="{{ form.email.id_for_label }}">{{ form.email.label|capfirst }}:</label>
+        {{ form.email }}
+      </p>
+      {{ form.name.errors }}
+      {{ form.email.errors }}
+    </div>
+
+    <p{% if form.subject.css_classes %} class="{{ form.subject.css_classes }}"{% endif %}>
+      <label for="{{ form.subject.id_for_label }}">{{ form.subject.label|capfirst }}:</label>
+      {{ form.subject }}
+    </p>
+    {{ form.subject.errors }}
+
+    <p{% if form.message.css_classes %} class="{{ form.message.css_classes }}"{% endif %}>
+      <label for="{{ form.message.id_for_label }}">{{ form.message.label|capfirst }}:</label>
+      {{ form.message }}
+    </p>
+    {{ form.message.errors }}
+
+    <div>
+      {% for field in form.hidden_fields %}
+        {{ field }}
+        {{ field.errors }}
+      {% endfor %}
+    </div>
+    {% csrf_token %}
+
+    <p><input type="submit" value="{% trans "Send" %}"></p>
+  </form>
+{% else %}
+  {% if recipients_len == 0 %}
+    <p class="error">{% trans "This contact form is not yet configured." %}</p>
+  {% else %}
+    <p id="contact-thanks">{% trans "Thank you for contacting us!" %}</p>
+  {% endif %}
+{% endif %}

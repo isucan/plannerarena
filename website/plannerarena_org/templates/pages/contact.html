@@ -1,0 +1,16 @@
+{% extends "pages/base.html" %}
+{% load cms_tags %}
+
+{% block page_content %}
+  <div id="contact-form">
+    {% with recaptcha_theme="white" %}
+      {% placeholder contact_form %}
+    {% endwith %}
+  </div> <!-- #contact-form -->
+
+  <div id="contact-info">
+    {% placeholder page_content %}
+  </div> <!-- #contact-info -->
+  <div style="clear:both"></div>
+{% endblock %}
+

@@ -1,0 +1,59 @@
+{% load i18n cms_tags sekizai_tags menu_tags %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block page_title %}{% page_attribute "title" %} - {{ site.name }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}This website presents benchmarking results for a variety of motion planners on a variety of planning problems.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}motion, planning, algorithms, benchmarks, planners{% endblock %}">
+    <link href="{{ STATIC_URL }}css/interface.css" rel="stylesheet" type="text/css" media="screen, projection">
+    {% render_block "css" %}
+    <link href="{% page_url "contact" %}" rel="contact" title="{% page_attribute "title" "contact" %}">
+    {% block header %}{% endblock %}
+  </head>
+  <body id="{{ site.domain|slugify }}">
+    <p id="skip-to-content"><a href="#content">{% trans "Skip to content." %}</a></p>
+
+    <div id="header">
+      <h1 id="logo"><a href="{% page_url "front_page" %}" title="{% page_attribute "title" "front_page" %}"><span id="logo-planner">Planner</span>arena<span id="logo-org">.org</span></a></h1>
+
+      <p id="header-tagline">Benchmarks for various motion planning algorithms.</p>
+      <div id="menu-bar">
+        {% block nav %}
+          <div id="main-menu">
+            <ul id="main-menu-items">
+              {% show_menu 0 0 0 0 %}
+            </ul>
+          </div>  <!-- #main-menu -->
+          {% show_menu 1 1 0 1 "menu/sub_menu.html" %}
+        {% endblock nav %}
+      </div> <!-- #menu-bar -->
+    </div> <!-- #header -->
+
+    <div id="page-content">
+      {% block page_content %}{% endblock %}
+    </div> <!-- #page-content -->
+
+    <p id="back-to-content"><a href="#{{ site.domain|slugify }}">{% trans "Back to content."%}</a></p>
+
+    <div id="footer">
+      {% block footer %}
+        <p id="sitemap-link"><a href="{% page_url "sitemap" %}">{% page_attribute "title" "sitemap" %}</a></p>
+        <p>Copyright information.</p>
+      {% endblock footer%}
+    </div>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27048116-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+    {% render_block "js" %}
+  </body> <!-- #{{ site.domain|slugify }} -->
+  {# vim:set spell spl=en fo=tcroqln1 tw=80 ts=8 sw=2 sts=2 sta et ai cin fenc=utf-8 ff=unix: #}
+</html>

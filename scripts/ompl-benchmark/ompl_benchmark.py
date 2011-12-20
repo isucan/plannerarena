@@ -53,10 +53,6 @@ class OMPLBenchmark(object):
     self.cursor = self.conn.cursor()
     self.cursor.execute('PRAGMA FOREIGN_KEYS = ON')
 
-  def __del__(self):
-    self.conn.commit()
-    self.cursor.close()
-
   def getExperimentNames(self):
     """Get the names of all the experiments in the database"""
     self.cursor.execute('SELECT DISTINCT name FROM experiments')

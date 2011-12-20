@@ -1,0 +1,254 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+map! <S-Insert> <MiddleMouse>
+vmap [% [%m'gv``
+nnoremap <silent> \sr :FufRenewCache
+nnoremap <silent> \sh :FufHelp
+nnoremap <silent> \sl :FufLine
+nnoremap <silent> \sj :FufJumpList
+nnoremap <silent> \sd :FufDir
+nnoremap <silent> \sf :FufFile
+nnoremap <silent> \sb :FufBuffer
+noremap <silent> \. :exe 'cd ' . substitute(expand("%:p:h"), ' ', "\\\\ ", 'g')
+vmap ]% ]%m'gv``
+vmap a% [%v]%
+nmap gx <Plug>NetrwBrowseX
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#NetrwBrowseX(expand("<cWORD>"),0)
+map <silent> <F3> :ToggleSpaceHi
+map <S-Insert> <MiddleMouse>
+iabbr $contrib$ ="Mihai Sucan <mihai.sucan@gmail.com>"
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set autoindent
+set backspace=indent,eol,start
+set backup
+set backupcopy=yes
+set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*test*,*temp*,*tmp*,*tst*,*~,*bak
+set cindent
+set cmdheight=2
+set complete=.,w,b,u,t
+set copyindent
+set diffopt=filler,iwhite
+set display=lastline
+set expandtab
+set exrc
+set fileencodings=ucs-bom,utf-8,latin1,default
+set fileformats=unix,dos,mac
+set foldopen=
+set formatoptions=tcroqln1
+set guicursor=n-v-c:block-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor,sm:block-Cursor-blinkwait175-blinkoff150-blinkon175,a:blinkon0
+set guioptions=egirLtc
+set helplang=fr
+set hidden
+set history=1000
+set hlsearch
+set ignorecase
+set incsearch
+set keymodel=startsel
+set laststatus=2
+set lazyredraw
+set listchars=tab:→\ ,trail:␣,nbsp:␣,extends:>,precedes:<,eol:▄
+set maxmem=2000000
+set maxmempattern=2000000
+set maxmemtot=2000000
+set mouse=a
+set nrformats=alpha,hex
+set path=.,/usr/include,,,./**
+set preserveindent
+set printoptions=paper:letter
+set report=0
+set ruler
+set rulerformat=%25(%n%m%r:\ %Y\ [%l,%v]\ %p%%%)
+set runtimepath=~/.vim,~/.vim/bundle/vim-fuzzyfinder,~/.vim/bundle/vim-l9,/var/lib/vim/addons,/usr/share/vim/vimfiles,/usr/share/vim/vim73,/usr/share/vim/vimfiles/after,/var/lib/vim/addons/after,~/.vim/after
+set scrolloff=3
+set secure
+set shiftwidth=2
+set shortmess=as
+set showcmd
+set showmatch
+set smartcase
+set smartindent
+set smarttab
+set softtabstop=2
+set nostartofline
+set statusline=%n:\ %f%m%r%h%w\ [%Y,%{&fileencoding},%{&fileformat}]\ [%l-%L,%v][%p%%]
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+set termencoding=utf-8
+set textwidth=80
+set undodir=~/.vim-undo
+set undofile
+set undolevels=2000
+set undoreload=20000
+set viminfo='200,<300,s150,%,h,!
+set virtualedit=block
+set whichwrap=b,s,<,>
+set wildignore=*~,*.bak,*.tmp,*.o,*.obj,*.swp,.hg,.git,.svn,ff-obj,ff-dbg-obj,*.pyc
+set wildmenu
+set window=56
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~/www/plannerarena_org
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +159 settings.py
+badd +35 urls.py
+badd +1 _tmp/info
+badd +4 templates/pages/default.html
+badd +27 templates/pages/base.html
+badd +136 static/css/interface.css
+badd +1 templates/menu/menu.html
+badd +1 templates/menu/sub_menu.html
+args ~/www/plannerarena.org/settings.py
+edit static/css/interface.css
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=+1
+setlocal colorcolumn=+1
+setlocal comments=s1:/*,mb:*,ex:*/
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal copyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'css'
+setlocal filetype=css
+endif
+set foldcolumn=4
+setlocal foldcolumn=4
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+set foldlevel=4
+setlocal foldlevel=4
+setlocal foldmarker={{{,}}}
+set foldmethod=indent
+setlocal foldmethod=indent
+set foldminlines=2
+setlocal foldminlines=2
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=n1croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*@import\\s\\+\\%(url(\\)\\=
+setlocal includeexpr=
+setlocal indentexpr=GetCSSIndent()
+setlocal indentkeys=0{,0},!^F,o,O
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=alpha,hex
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=csscomplete#CompleteCSS
+setlocal path=
+setlocal preserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+set spell
+setlocal spell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'css'
+setlocal syntax=css
+endif
+setlocal tabstop=8
+setlocal tags=
+setlocal textwidth=80
+setlocal thesaurus=
+setlocal undofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+74
+normal zo
+168
+normal zo
+172
+normal zo
+177
+normal zo
+190
+normal zo
+198
+normal zo
+let s:l = 198 - ((48 * winheight(0) + 27) / 54)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+198
+normal! 014l
+lcd ~/www/plannerarena_org
+tabnext 1
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=as
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :

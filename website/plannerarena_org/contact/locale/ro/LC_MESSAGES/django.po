@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-05 16:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1))\n"
+
+#: cms_plugins.py:12
+msgid "Contact form"
+msgstr "Formular de contact"
+
+#: cms_plugins.py:29
+msgid "No subject"
+msgstr "Fără subiect"
+
+#: cms_plugins.py:48
+#, python-format
+msgid "[Contact page] %(subject)s"
+msgstr "[Pagina de contact] %(subject)s"
+
+#: forms.py:7
+msgid "Recaptcha challenge"
+msgstr "Provocare Recaptcha"
+
+#: forms.py:11
+msgid "Recaptcha test response"
+msgstr "Răspunsul la testul Recaptcha"
+
+#: forms.py:12
+msgid "Please enter the two words on the image separated by a space."
+msgstr ""
+"Vă rugăm să introduceți cele două cuvinte afișate în imagine, separate cu un "
+"spațiu."
+
+#: forms.py:14 forms.py:37
+msgid "You did not enter any of the two words shown in the image."
+msgstr "Nu ați introdus cuvintele din imagine."
+
+#: forms.py:44
+msgid "The words you entered did not match the image."
+msgstr "Cuvintele introduse nu sunt aceleași cu cele din imagine."
+
+#: forms.py:64 models.py:21
+msgid "recipient"
+msgstr "destinatar"
+
+#: forms.py:65 models.py:17
+msgid "name"
+msgstr "nume"
+
+#: forms.py:66 models.py:18
+msgid "email"
+msgstr "email"
+
+#: forms.py:67
+msgid "subject"
+msgstr "subiect"
+
+#: forms.py:68
+msgid "message"
+msgstr "mesaj"
+
+#: models.py:6
+msgid "title"
+msgstr "titlu"
+
+#: models.py:9
+msgid "contacts group"
+msgstr "grupa de contacte"
+
+#: models.py:10
+msgid "groups of contacts"
+msgstr "grupe de contacte"
+
+#: models.py:16 models.py:30
+msgid "group"
+msgstr "grupa"
+
+#: models.py:22
+msgid "recipients"
+msgstr "destinatari"
+
+#: models.py:31
+msgid ""
+"The group of email addresses allowed in the destination field for the "
+"contact form."
+msgstr "Grupa de adrese de email afișate în formularul de contact."
+
+#: models.py:39
+msgid "<no recipients>"
+msgstr "<nici un destinatar>"
+
+#: templates/contact/contact.html:19
+msgid "Send"
+msgstr "Trimite"
+
+#: templates/contact/contact.html:23
+msgid "This contact form is not yet configured."
+msgstr "Acest formular de contact nu este configurat încă."
+
+#: templates/contact/contact.html:25
+msgid "Thank you for contacting us!"
+msgstr "Vă mulțumim pentru că ați ales să ne contactați!"
+
+#: templates/contact/email.txt:5
+msgid "Name:"
+msgstr "Nume:"
+
+#: templates/contact/email.txt:6
+msgid "Email:"
+msgstr "Email:"
+
+#: templates/contact/email.txt:7
+msgid "Subject:"
+msgstr "Subiect:"
+
+#: templates/contact/email.txt:8
+msgid "Page:"
+msgstr "Pagina:"
+
+#: templates/contact/email.txt:9
+msgid "IP address:"
+msgstr "Adresa IP:"
+
+#: templates/contact/email.txt:10
+msgid "User agent:"
+msgstr "User agent:"
