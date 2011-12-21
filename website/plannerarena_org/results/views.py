@@ -16,16 +16,12 @@ except:
     sys.path.append("/home/isucan/plannerarena.org/repo/scripts/ompl-benchmark")
     import ompl_benchmark
 
-benchmark = ompl_benchmark.OMPLBenchmark("/home/isucan/plannerarena.org/repo/db/benchmark.db")
+benchmark = ompl_benchmark.OMPLBenchmark("repo/db/benchmark.db")
 
 def toJson(tbl):
     data_table = gviz_api.DataTable(tbl.description)
     data_table.LoadData(tbl.data)
     return data_table.ToJSon(columns_order=[c[0] for c in tbl.description], order_by=tbl.orderby)
-
-def hw():
-    x = " "#.join(getattr(problems, benchmark).getExperimentNames())
-    return "Hello, world. You're at the poll index." + x
 
 def getJsTables(tables):
     table_template = """

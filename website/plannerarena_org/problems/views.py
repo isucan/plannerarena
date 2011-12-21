@@ -10,14 +10,21 @@ except:
     sys.path.append("/home/isucan/plannerarena.org/repo/scripts/ompl-benchmark")
     import ompl_benchmark
     
-benchmark = ompl_benchmark.OMPLBenchmark("/home/isucan/plannerarena.org/repo/db/benchmark.db")
+benchmark = ompl_benchmark.OMPLBenchmark("repo/db/benchmark.db")
 
 def index(request):
     return render_to_response('problems/index.html', {'request' : request, 'page_content': "test" }, 
                               context_instance=RequestContext(request))
 
 def list_experiments(request, exps):
-    content = "pg"
+    content = ''
+    if len(exps) == 0:
+        content = "<h2>There are no experiments</h2>\n"
+    else:
+        content = "<h2>List of experiments</h2>\n"
+    for e in exps:
+        content += '<h3>' + e + '</h3><img width="150" src="/static/problems/' + e + '.png"/>' + '</p><img width="150" src="/static/problems/' + e + '_solved.png"/>'
+
     return render_to_response('problems/index.html', {'request' : request, 'page_content': mark_safe(content) }, 
                               context_instance=RequestContext(request))
 
