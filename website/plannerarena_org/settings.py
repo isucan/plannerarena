@@ -15,16 +15,28 @@ MANAGERS = ADMINS
 
 PROJECT_PATH=os.path.dirname( os.path.realpath(__file__))
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(PROJECT_PATH, 'site.db'),
+#        'USER': '',
+#        'PASSWORD': '',
+#        'HOST': '',
+#        'PORT': '',
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(PROJECT_PATH, 'site.db'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+    'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    'NAME': 'plannerarena_db',                      # Or path to database file if using sqlite3.
+    'USER': 'plannerarena_dj',                      # Not used with sqlite3.
+    'PASSWORD': 'AsFEt4brH3sra4mU',                  # Not used with sqlite3.
+    'HOST': 'mysql.robodesign.ro',                      # Set to empty string for localhost. Not used with sqlite3.
+    'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -55,7 +67,7 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, '../public/media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -66,7 +78,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_PATH, 'static_collected')
+STATIC_ROOT = os.path.join(PROJECT_PATH, '../public/static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"

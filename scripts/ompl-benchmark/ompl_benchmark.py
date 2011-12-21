@@ -175,9 +175,9 @@ class OMPLBenchmark(object):
           graph_states = graph_states + r[4]
           graph_motions = graph_motions + r[5]
         if sid == 0:
-          data.append((nm, rid + 100, 0, 0, 1.0 - solved / float(rid), 0, 0, 0, 0))
+          data.append((nm, rid + 100, 0, 0, 100.0*(1.0 - solved / float(rid)), 0, 0, 0, 0))
         else:
-          data.append((nm, rid + 100, total_time / float(sid), solution_length / float(sid), 1.0 - solved / float(rid),
+          data.append((nm, rid + 100, total_time / float(sid), solution_length / float(sid), 100.0*(1.0 - solved / float(rid)),
                        graph_states / float(sid), graph_motions / float(sid), solution_smoothness / float(sid), solution_clearance / float(sid)))
     return OMPLTableData(description, data, "planner")
     
@@ -226,8 +226,8 @@ class OMPLBenchmark(object):
         graph_states = graph_states + r[5]
         graph_motions = graph_motions + r[6]
       if sid == 0:
-        data.append(('C' + str(r[6]), rid + 100, 0, 0, 1.0 - solved / float(rid), 0, 0, 0, 0))
+        data.append(('C' + str(r[6]), rid + 100, 0, 0, 100.0*(1.0 - solved / float(rid)), 0, 0, 0, 0))
       else:
-        data.append(('C' + str(r[6]), rid + 100, total_time / float(sid), solution_length / float(sid), 1.0 - solved / float(rid),
+        data.append(('C' + str(r[6]), rid + 100, total_time / float(sid), solution_length / float(sid), 100.0*(1.0 - solved / float(rid)),
                      graph_states / float(sid), graph_motions / float(sid), solution_smoothness / float(sid), solution_clearance / float(sid)))
     return OMPLTableData(description, data, "config")

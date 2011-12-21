@@ -7,10 +7,10 @@ import os
 try:
     import ompl_benchmark
 except:
-    sys.path.append(os.environ['PLANNERARENA_ROOT'] + "/scripts/ompl-benchmark")
+    sys.path.append("/home/isucan/plannerarena.org/repo/scripts/ompl-benchmark")
     import ompl_benchmark
     
-benchmark = ompl_benchmark.OMPLBenchmark(os.environ['PLANNERARENA_ROOT'] + "/db/benchmark.db")
+benchmark = ompl_benchmark.OMPLBenchmark("/home/isucan/plannerarena.org/repo/db/benchmark.db")
 
 def index(request):
     return render_to_response('problems/index.html', {'request' : request, 'page_content': "test" }, 

@@ -7,16 +7,16 @@ import os
 try:
     import gviz_api
 except:
-    sys.path.append(os.environ['PLANNERARENA_ROOT'] + "/scripts/google-visualization-python")
+    sys.path.append("/home/isucan/plannerarena.org/repo/scripts/google-visualization-python")
     import gviz_api
 
 try:
     import ompl_benchmark
 except:
-    sys.path.append(os.environ['PLANNERARENA_ROOT'] + "/scripts/ompl-benchmark")
+    sys.path.append("/home/isucan/plannerarena.org/repo/scripts/ompl-benchmark")
     import ompl_benchmark
 
-benchmark = ompl_benchmark.OMPLBenchmark(os.environ['PLANNERARENA_ROOT'] + "/db/benchmark.db")
+benchmark = ompl_benchmark.OMPLBenchmark("/home/isucan/plannerarena.org/repo/db/benchmark.db")
 
 def toJson(tbl):
     data_table = gviz_api.DataTable(tbl.description)
