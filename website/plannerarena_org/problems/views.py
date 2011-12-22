@@ -13,7 +13,14 @@ except:
 benchmark = ompl_benchmark.OMPLBenchmark("repo/db/benchmark.db")
 
 def index(request):
-    return render_to_response('problems/index.html', {'request' : request, 'page_content': "test" }, 
+    content = ""
+    content += "<h2>Evaluated Problem Scenarios</h2>\n"
+    content += "<p>This section of the website contains the descriptions for the problems used in the benchmarks. Each problem consists of three components: the geometry of the environment, the geometry of the robot, the dregrees of freedom for the robot and the query (a start state and a goal state).</p>\n"
+    content += "<p>We distinguish two categories of problems:\n"
+    content += "<ul><li><a href=\"/problems/geometric/\">Planning under geometric constraints</a></li>\n"
+    content += "<li><a href=\"/problems/control/\">Planning under differential constraints</a></li></ul></p>\n"
+    
+    return render_to_response('problems/index.html', {'request' : request, 'page_content': mark_safe(content) }, 
                               context_instance=RequestContext(request))
 
 def list_experiments(request, exps):
