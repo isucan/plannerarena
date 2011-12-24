@@ -9,13 +9,9 @@ CFG_FILES=$(shell find $(PROBLEMS_DIR) -name *.cfg)
 LOG_FILES=$(addprefix $(RESULTS_DIR),$(notdir $(CFG_FILES:.cfg=.log)))
 TARGETS=$(basename $(notdir $(CFG_FILES)))
 
-all:	benchmark
+all:	benchmark db
 
 benchmark:	$(TARGETS)
-	if test -e $(RESULTS_DB); then \
-	mv $(RESULTS_DB) $(RESULTS_DB).backup; \
-	fi
-	$(DB_SCRIPT) $(LOG_FILES) --database=$(RESULTS_DB)
 
 define RUN_BENCHMARK_template
 $(basename $(notdir $(1))): $(1)
@@ -24,5 +20,13 @@ endef
 
 $(foreach cfg,$(CFG_FILES),$(eval $(call RUN_BENCHMARK_template,$(cfg))))
 
+db:
+	if test -e $(RESULTS_DB); then \
+	mv $(RESULTS_DB) $(RESULTS_DB).backup; \
+	fi
+	$(DB_SCRIPT) $(LOG_FILES) --database=$(RESULTS_DB)
+
 clean:
 	rm -f *.console
+
+.PHONY:	db
