@@ -48,7 +48,7 @@ def getJsTable(name, json, chart = True):
     if chart:
         js = js + "var json_chart_%s = new google.visualization.MotionChart(document.getElementById('chart_div_%s'));\n" % (tname, tname)
         js = js + "var chart_%s_options = {};\n" % tname
-        js = js + "chart_%s_options['state'] = '{\"playDuration\":1500}';\n" % tname
+        js = js + "chart_%s_options['state'] = '{\"playDuration\":0}';\n" % tname
         js = js + "chart_%s_options['width'] = 640;\n" % tname
         js = js + "chart_%s_options['height'] = 420;\n" % tname
         js = js + "json_chart_%s.draw(json_data_%s, chart_%s_options);\n" % (tname, tname, tname)

@@ -36,10 +36,9 @@ def getExperimentImages(exps):
 
 def main():
     b = ompl_benchmark.OMPLBenchmark("../db/benchmark.db")
-    e = b.getExperimentNames()
-    print getExperimentImages(e)
-#    print toJson(b.getGeometricPlannersTable(None))
     print b.getExperimentNames()
+    print toJson(b.getGeometricPlannersTable('cubicles_se3'))
+
 
 if __name__ == "__main__":
     main()

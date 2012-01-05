@@ -153,6 +153,7 @@ class OMPLBenchmark(object):
       else:
         self.cursor.execute('SELECT ifnull(time, 0) as total_time, ifnull(solution_length, 0) as solution_length, ifnull(solution_clearance, 0) as solution_clearance, ifnull(solution_smoothness, 0) as solution_smoothness, ifnull(graph_states, 0) as graph_states, ifnull(graph_motions, 0) AS graph_motions, ifnull(solved = 1 AND crashed = 0 AND correct_solution = 1 AND approximate_solution = 0, 0) AS solved FROM %s' % p)
 
+      # average the results, taking into acount whether a solution as been found or not
       nm = replace(p, prefix, '')
       rid = 0
       sid = 0
@@ -174,12 +175,17 @@ class OMPLBenchmark(object):
           solution_smoothness = solution_smoothness + r[3]
           graph_states = graph_states + r[4]
           graph_motions = graph_motions + r[5]
-        if sid == 0:
-          data.append((nm, rid + 100, 0, 0, 100.0*(1.0 - solved / float(rid)), 0, 0, 0, 0))
-        else:
-          data.append((nm, rid + 100, total_time / float(sid), solution_length / float(sid), 100.0*(1.0 - solved / float(rid)),
-                       graph_states / float(sid), graph_motions / float(sid), solution_smoothness / float(sid), solution_clearance / float(sid)))
-    return OMPLTableData(description, data, "planner")
+      if sid == 0:
+        data.append((nm, rid, 0, 0, 100.0*(1.0 - solved / float(rid)), 0, 0, 0, 0))
+      else:
+        data.append((nm, rid, total_time / float(sid), solution_length / float(sid), 100.0*(1.0 - solved / float(rid)),
+                     graph_states / float(sid), graph_motions / float(sid), solution_smoothness / float(sid), solution_clearance / float(sid)))
+    # find the maximum number of runs averaged for a planner and set it as the 'time', so we do not have a time bar in the chart
+    datau = []
+    rid = max(r[1] for r in data)
+    for r in data:
+      datau.append((r[0], rid) + r[2:])
+    return OMPLTableData(description, datau, "planner")
     
   def getGeometricPlannerConfigsTable(self, exp_name, p_name, with_simplification = True):
     data = []
@@ -205,6 +211,12 @@ class OMPLBenchmark(object):
     last_id = -1
     for r in c.fetchall():
       if last_id != r[0]:
+        if rid != 0:
+          if sid == 0:
+            data.append(('C' + str(r[6]), rid, 0, 0, 100.0*(1.0 - solved / float(rid)), 0, 0, 0, 0))
+          else:
+            data.append(('C' + str(r[6]), rid, total_time / float(sid), solution_length / float(sid), 100.0*(1.0 - solved / float(rid)),
+                         graph_states / float(sid), graph_motions / float(sid), solution_smoothness / float(sid), solution_clearance / float(sid)))
         rid = 0
         sid = 0
         total_time = 0
@@ -225,9 +237,9 @@ class OMPLBenchmark(object):
         solution_smoothness = solution_smoothness + r[4]
         graph_states = graph_states + r[5]
         graph_motions = graph_motions + r[6]
-      if sid == 0:
-        data.append(('C' + str(r[6]), rid + 100, 0, 0, 100.0*(1.0 - solved / float(rid)), 0, 0, 0, 0))
-      else:
-        data.append(('C' + str(r[6]), rid + 100, total_time / float(sid), solution_length / float(sid), 100.0*(1.0 - solved / float(rid)),
-                     graph_states / float(sid), graph_motions / float(sid), solution_smoothness / float(sid), solution_clearance / float(sid)))
-    return OMPLTableData(description, data, "config")
+    # find the maximum number of runs averaged for a planner and set it as the 'time', so we do not have a time bar in the chart
+    datau = []
+    rid = max(r[1] for r in data)
+    for r in data:
+      datau.append((r[0], rid) + r[2:])      
+    return OMPLTableData(description, datau, "config")
