@@ -1,0 +1,1 @@
+http://plannerarena.org hosts benchmarking results as well as code generating those results, in an effort to expose properties, advantages and disadvantages of different motion planning algorithms. An important use-case of this code is parameter sweeps for particular robotic systems.
